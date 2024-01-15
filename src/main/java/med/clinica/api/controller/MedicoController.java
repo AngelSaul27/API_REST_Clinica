@@ -1,10 +1,8 @@
 package med.clinica.api.controller;
 
+import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
-import med.clinica.api.medico.DatosListadoMedico;
-import med.clinica.api.medico.DatosRegistroMedico;
-import med.clinica.api.medico.Medico;
-import med.clinica.api.medico.MedicoRepository;
+import med.clinica.api.medico.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -27,13 +25,38 @@ public class MedicoController {
         repository.save(new Medico(datosRegistroMedico));
     }
 
-    /** @GetMapping
+    /**
+    @GetMapping
     public List<DatosListadoMedico> listarMedico(){
         return repository.findAll().stream().map(DatosListadoMedico::new).toList();
     }*/
 
     @GetMapping
     public Page<DatosListadoMedico> listadoMedico(Pageable paginacion){
-        return repository.findAll(paginacion).map(DatosListadoMedico::new);
+        return repository.findByActivoTrue(paginacion).map(DatosListadoMedico::new);
     }
+
+    @PutMapping
+    @Transactional
+    public void actualizarMedico(@RequestBody @Valid DatosActualizarMedico datosActualizarMedico){
+        Medico medico = repository.getReferenceById(datosActualizarMedico.id());
+        medico.actualizarDatos(datosActualizarMedico);
+    }
+
+    /**
+    @DeleteMapping("/{id}")
+    @Transactional
+    public void eliminarMedico(@PathVariable Long id){
+        Medico medico = repository.getReferenceById(id);
+        repository.delete(medico);
+    }*/
+
+    //Deleted Logic
+    @DeleteMapping("/{id}")
+    @Transactional
+    public void eliminarMedico(@PathVariable Long id){
+        Medico medico = repository.getReferenceById(id);
+        medico.desahbilitar();
+    }
+
 }

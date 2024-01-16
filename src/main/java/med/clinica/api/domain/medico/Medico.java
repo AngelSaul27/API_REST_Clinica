@@ -1,9 +1,8 @@
-package med.clinica.api.medico;
+package med.clinica.api.domain.medico;
 
 import jakarta.persistence.*;
 import lombok.*;
-import med.clinica.api.direccion.DatosDireccion;
-import med.clinica.api.direccion.Direccion;
+import med.clinica.api.domain.direccion.Direccion;
 
 @SuppressWarnings("all")
 @Table(name = "medicos")

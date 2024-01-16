@@ -2,7 +2,7 @@ package med.clinica.api.controller;
 
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
-import med.clinica.api.medico.*;
+import med.clinica.api.domain.medico.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -59,5 +59,4 @@ public class MedicoController {
 
         return ResponseEntity.noContent().build();
     }
-    
 }

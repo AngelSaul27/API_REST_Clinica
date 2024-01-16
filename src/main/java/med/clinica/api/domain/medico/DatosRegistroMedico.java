@@ -1,11 +1,11 @@
-package med.clinica.api.medico;
+package med.clinica.api.domain.medico;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
-import med.clinica.api.direccion.DatosDireccion;
+import med.clinica.api.domain.direccion.DatosDireccion;
 
 @SuppressWarnings("all")
 public record DatosRegistroMedico(

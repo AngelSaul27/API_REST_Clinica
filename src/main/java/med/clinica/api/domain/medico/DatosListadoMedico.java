@@ -1,4 +1,4 @@
-package med.clinica.api.medico;
+package med.clinica.api.domain.medico;
 
 public record DatosListadoMedico (
         Long id,

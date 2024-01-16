@@ -1,4 +1,4 @@
-package med.clinica.api.direccion;
+package med.clinica.api.domain.direccion;
 
 import jakarta.persistence.Embeddable;
 import lombok.AllArgsConstructor;

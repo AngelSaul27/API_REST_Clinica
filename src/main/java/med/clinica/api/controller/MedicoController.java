@@ -23,11 +23,6 @@ public class MedicoController {
         this.repository = repository;
     }
 
-    /**
-     *  Return 201 Created
-     *  URL donde encontrar al médico
-     *  Get http://localhost:8080/medicos/x
-     * */
     @PostMapping
     public ResponseEntity<DatosRespuestaMedico> registrarMedico(@RequestBody @Valid DatosRegistroMedico datosRegistroMedico, UriComponentsBuilder uriComponentsBuilder){
         Medico medico = repository.save(new Medico(datosRegistroMedico));
@@ -35,12 +30,6 @@ public class MedicoController {
         URI url = uriComponentsBuilder.path("/medicos/{id}").buildAndExpand(medico.getId()).toUri();
         return ResponseEntity.created(url).body(respuestaMedico);
     }
-
-    /**
-    @GetMapping
-    public List<DatosListadoMedico> listarMedico(){
-        return repository.findAll().stream().map(DatosListadoMedico::new).toList();
-    }*/
 
     @GetMapping
     public ResponseEntity<Page<DatosListadoMedico>> listadoMedico(Pageable paginacion){
@@ -62,15 +51,6 @@ public class MedicoController {
         return ResponseEntity.ok(new DatosRespuestaMedico(medico)); //Evitar enviar la entidad
     }
 
-    /**
-    @DeleteMapping("/{id}")
-    @Transactional
-    public void eliminarMedico(@PathVariable Long id){
-        Medico medico = repository.getReferenceById(id);
-        repository.delete(medico);
-    }*/
-
-    //Deleted Logic
     @DeleteMapping("/{id}")
     @Transactional
     public ResponseEntity eliminarMedico(@PathVariable Long id){
@@ -79,5 +59,5 @@ public class MedicoController {
 
         return ResponseEntity.noContent().build();
     }
-
+    
 }

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+@SuppressWarnings("all")
 @RestController
 @RequestMapping("/login")
 public class AutenticationController {
@@ -30,11 +31,11 @@ public class AutenticationController {
 
     @PostMapping
     public ResponseEntity autenticarUsuario(@RequestBody @Valid DatosAutenticacionUsuario datosAutenticacionUsuario){
-        Authentication authenticationTokem = new UsernamePasswordAuthenticationToken(
+        Authentication authenticationToken = new UsernamePasswordAuthenticationToken(
                 datosAutenticacionUsuario.login(), datosAutenticacionUsuario.clave()
         );
 
-        var usuarioAutenticado = authenticationManager.authenticate(authenticationTokem);
+        var usuarioAutenticado = authenticationManager.authenticate(authenticationToken);
 
         String jwtToken = tokenService.generarToken((Usuario) usuarioAutenticado.getPrincipal());
         return ResponseEntity.ok(new DatosJWTtoken(jwtToken));

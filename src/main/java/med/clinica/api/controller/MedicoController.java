@@ -24,6 +24,7 @@ public class MedicoController {
     }
 
     @PostMapping
+    @Transactional
     public ResponseEntity<DatosRespuestaMedico> registrarMedico(@RequestBody @Valid DatosRegistroMedico datosRegistroMedico, UriComponentsBuilder uriComponentsBuilder){
         Medico medico = repository.save(new Medico(datosRegistroMedico));
         DatosRespuestaMedico respuestaMedico = new DatosRespuestaMedico(medico);

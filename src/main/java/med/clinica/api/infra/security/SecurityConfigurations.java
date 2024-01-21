@@ -1,5 +1,6 @@
 package med.clinica.api.infra.security;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -19,6 +20,7 @@ public class SecurityConfigurations {
 
     private final SecurityFilter securityFilter;
 
+    @Autowired
     public SecurityConfigurations(SecurityFilter securityFilter){
         this.securityFilter = securityFilter;
     }

@@ -1,0 +1,1 @@
+ALTER TABLE consultas CHANGE data fecha DATETIME NOT NULL;

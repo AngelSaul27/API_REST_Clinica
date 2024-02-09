@@ -1,8 +1,10 @@
 package med.clinica.api.infra.security;
 
 import com.auth0.jwt.JWT;
+import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
+import com.auth0.jwt.exceptions.JWTDecodeException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import med.clinica.api.domain.users.Usuario;
@@ -12,6 +14,7 @@ import org.springframework.stereotype.Service;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
+import java.util.Date;
 
 @Service
 public class TokenService {
@@ -22,6 +25,7 @@ public class TokenService {
     public String generarToken(Usuario usuario){
         try {
             Algorithm algorithm = Algorithm.HMAC256(apiSecret);
+            System.out.println(apiSecret);
             return JWT.create()
                     .withIssuer("clinica")
                     .withSubject(usuario.getLogin())
@@ -48,10 +52,10 @@ public class TokenService {
                     .verify(token);
 
         } catch (JWTVerificationException exception){
-            System.out.println(exception);
+            System.out.println(exception.getMessage());
         }
 
-        if(verifier.getSubject() == null){
+        if(verifier == null || verifier.getSubject() == null){
             throw new RuntimeException("Verificación invalida");
         }
 
@@ -60,5 +64,15 @@ public class TokenService {
 
     private Instant generarFechaExpiracion(){
         return LocalDateTime.now().plusHours(2).toInstant(ZoneOffset.of("-05:00"));
+    }
+
+    public Date getExpirationDate(String token) {
+        try {
+            Algorithm algorithm = Algorithm.HMAC256(apiSecret);
+            JWTVerifier verifier = JWT.require(algorithm).build();
+            return verifier.verify(token).getExpiresAt();
+        } catch (JWTDecodeException e) {
+            throw new RuntimeException("Error al obtener la fecha de expiración del token", e);
+        }
     }
 }

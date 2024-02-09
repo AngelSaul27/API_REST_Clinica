@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Date;
+
 @SuppressWarnings("all")
 @RestController
 @RequestMapping("/login")
@@ -38,7 +40,8 @@ public class AutenticationController {
         var usuarioAutenticado = authenticationManager.authenticate(authenticationToken);
 
         String jwtToken = tokenService.generarToken((Usuario) usuarioAutenticado.getPrincipal());
-        return ResponseEntity.ok(new DatosJWTtoken(jwtToken));
+        Date jwtExp = tokenService.getExpirationDate(jwtToken);
+        return ResponseEntity.ok(new DatosJWTtoken(jwtToken, jwtExp));
     }
 
 }
